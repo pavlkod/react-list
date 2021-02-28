@@ -1,35 +1,17 @@
 import PropTypes from "prop-types";
-import { ArrowSort } from "../ArrowSort";
+import { HeadLine } from "../HeadLine";
 
 import { TableItem } from "../TableItem";
 
-const Table = ({ items = [], onSort, sortKey, sortOrder }) => {
-  const onSortHandler = e => {
-    const { target } = e;
-    if (onSort && (target.tagName === "th" || target.closest("th"))) {
-      onSort(target.dataset.key);
-    }
-  };
+const Table = ({ items = [], onSort }) => {
+  const fields = ["ID", "Name", "UserName", "Email", "Phone"];
   return (
     <table className="table">
       <thead>
-        <tr onClick={onSortHandler}>
-          <th data-key="id">
-            ID
-            <ArrowSort field="id" sort={sortKey} order={sortOrder} />
-          </th>
-          <th data-key="name">
-            Name <ArrowSort field="name" sort={sortKey} order={sortOrder} />
-          </th>
-          <th data-key="username">
-            UserName <ArrowSort field="username" sort={sortKey} order={sortOrder} />
-          </th>
-          <th data-key="email">
-            Email <ArrowSort field="email" sort={sortKey} order={sortOrder} />
-          </th>
-          <th data-key="phone">
-            Phone <ArrowSort field="phone" sort={sortKey} order={sortOrder} />
-          </th>
+        <tr>
+          {fields.map(field => (
+            <HeadLine key={field} field={field} onSort={onSort} />
+          ))}
         </tr>
       </thead>
       <tbody>

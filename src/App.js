@@ -14,12 +14,12 @@ import { initialState } from "./reducer/state";
 function App() {
   const [state, dispatch] = useReducer(rootReducer, initialState);
 
-  const onSortHandler = key => {
+  const onSortHandler = (field, order) => {
     const data = [...state.items];
-    const order = state.sort.order === "asc" ? "desc" : "asc";
+    // const order = state.sort.order === "asc" ? "desc" : "asc";
 
-    dispatch(fetchData(orderBy(data, key, order)));
-    dispatch(setSortFields({ key, order }));
+    dispatch(fetchData(orderBy(data, field, order)));
+    dispatch(setSortFields({ field, order }));
   };
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function App() {
         const response = await fetch(url);
         const data = await response.json();
 
-        dispatch(fetchData(orderBy(data, state.sort.key, state.sort.order)));
+        dispatch(fetchData(orderBy(data, state.sort.field, state.sort.order)));
       } catch (e) {
       } finally {
         dispatch(hideLoading());
@@ -51,7 +51,7 @@ function App() {
 
   return (
     <div className="container">
-      <Table items={state.items} onSort={onSortHandler} sortKey={state.sort.key} sortOrder={state.sort.order} />
+      <Table items={state.items} onSort={onSortHandler} />
     </div>
   );
 }

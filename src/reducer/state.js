@@ -1,7 +1,7 @@
 export const initialState = {
   items: [],
   sort: {
-    key: "id",
+    field: "id",
     order: "desc",
   },
   error: null,
