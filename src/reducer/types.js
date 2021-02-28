@@ -5,3 +5,4 @@ export const HIDE_LOADING = "HIDE_LOADING";
 export const FETCH_DATA = "FETCH_DATA";
 export const SORT_DATA = "SORT_DATA";
 export const SET_SORT_FIELDS = "SET_SORT_FIELDS";
+export const SET_ROW_INFO = "SET_ROW_INFO";

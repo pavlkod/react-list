@@ -7,19 +7,30 @@ import { Table } from "./components/Table";
 
 import { LIST_ITEMS } from "./api";
 
-import { fetchData, hideLoading, setSortFields } from "./reducer/actionCreators";
+import { fetchData, hideLoading, setRowInfo, setSortFields } from "./reducer/actionCreators";
 import { rootReducer } from "./reducer/index";
 import { initialState } from "./reducer/state";
+import { RowInfo } from "./components/RowInfo";
 
 function App() {
   const [state, dispatch] = useReducer(rootReducer, initialState);
 
   const onSortHandler = (field, order) => {
     const data = [...state.items];
-    // const order = state.sort.order === "asc" ? "desc" : "asc";
 
     dispatch(fetchData(orderBy(data, field, order)));
     dispatch(setSortFields({ field, order }));
+  };
+
+  const onGetItemHandler = event => {
+    const { target } = event;
+    let tr = null;
+    if ((tr = target.closest("tr") || target.tagName === "tr")) {
+      try {
+        const item = JSON.parse(tr.dataset.item);
+        dispatch(setRowInfo(item));
+      } catch (e) {}
+    }
   };
 
   useEffect(() => {
@@ -51,7 +62,8 @@ function App() {
 
   return (
     <div className="container">
-      <Table items={state.items} onSort={onSortHandler} />
+      <Table items={state.items} onSort={onSortHandler} onGetItem={onGetItemHandler} />
+      {Object.keys(state.rowInfo).length > 0 && <RowInfo info={state.rowInfo} />}
     </div>
   );
 }

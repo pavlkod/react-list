@@ -1,11 +1,12 @@
-export const TableItem = ({ item: { id, name, username, email, phone } }) => {
+const TableItem = ({ item }) => {
   return (
-    <tr>
-      <td>{id}</td>
-      <td>{name}</td>
-      <td>{username}</td>
-      <td>{email}</td>
-      <td>{phone}</td>
+    <tr data-item={JSON.stringify(item)}>
+      <td>{item.id}</td>
+      <td>{item.name}</td>
+      <td>{item.username}</td>
+      <td>{item.email}</td>
+      <td>{item.phone}</td>
     </tr>
   );
 };
+export { TableItem };

@@ -3,8 +3,11 @@ import { HeadLine } from "../HeadLine";
 
 import { TableItem } from "../TableItem";
 
-const Table = ({ items = [], onSort }) => {
+const Table = ({ items = [], onSort, onGetItem }) => {
   const fields = ["ID", "Name", "UserName", "Email", "Phone"];
+  const onClickHandler = e => {
+    onGetItem && onGetItem(e);
+  };
   return (
     <table className="table">
       <thead>
@@ -14,7 +17,7 @@ const Table = ({ items = [], onSort }) => {
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody onClick={onClickHandler}>
         {items.map(item => (
           <TableItem key={item.id} item={item} />
         ))}

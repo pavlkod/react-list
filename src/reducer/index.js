@@ -1,4 +1,4 @@
-import { FETCH_DATA, HIDE_LOADING, SET_SORT_FIELDS, SHOW_LOADING } from "./types";
+import { FETCH_DATA, HIDE_LOADING, SET_ROW_INFO, SET_SORT_FIELDS, SHOW_LOADING } from "./types";
 
 export const rootReducer = (state, action) => {
   switch (action.type) {
@@ -10,6 +10,8 @@ export const rootReducer = (state, action) => {
       return { ...state, items: action.payload };
     case SET_SORT_FIELDS:
       return { ...state, sort: action.payload };
+    case SET_ROW_INFO:
+      return { ...state, rowInfo: action.payload };
     default:
       return state;
   }
