@@ -4,7 +4,7 @@ import { HeadLine } from "../HeadLine";
 import { TableItem } from "../TableItem";
 
 const Table = ({ items = [], onSort, onGetItem }) => {
-  const fields = ["ID", "Name", "UserName", "Email", "Phone"];
+  const fields = ["id", "firstName", "lastName", "email", "phone"];
   const onClickHandler = e => {
     onGetItem && onGetItem(e);
   };
@@ -19,7 +19,7 @@ const Table = ({ items = [], onSort, onGetItem }) => {
       </thead>
       <tbody onClick={onClickHandler}>
         {items.map(item => (
-          <TableItem key={item.id} item={item} />
+          <TableItem key={item.id + item.phone} item={item} />
         ))}
       </tbody>
     </table>
@@ -30,8 +30,8 @@ Table.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      name: PropTypes.string,
-      username: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
       email: PropTypes.string,
       phone: PropTypes.string,
     })

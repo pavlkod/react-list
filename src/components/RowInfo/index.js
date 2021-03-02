@@ -1,11 +1,11 @@
-export const RowInfo = ({ info: { name, username, phone, email } }) => {
+export const RowInfo = ({ info: { firstName, lastName, phone, email } }) => {
   return (
     <div>
       <h2>Info</h2>
       <p>
-        Выбранный пользователь:
+        Выбранный пользователь:{" "}
         <b>
-          {name} ({username})
+          {firstName} {lastName}
         </b>
       </p>
       <p>Телефон: {phone}</p>

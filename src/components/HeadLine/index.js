@@ -9,7 +9,7 @@ const HeadLine = ({ field, onSort }) => {
   const onSortHandler = () => {
     const direction = order === "desc" ? "asc" : "desc";
     setOrder(direction);
-    onSort(field.toLowerCase(), direction);
+    onSort(field, direction);
   };
 
   return (

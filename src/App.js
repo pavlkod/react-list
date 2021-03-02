@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import ReactPaginate from "react-paginate";
 
 import { orderBy } from "lodash";
@@ -14,6 +14,7 @@ import {
   setCurrentPage,
   setModeSelected,
   setRowInfo,
+  setSearchWord,
   setSortFields,
   showError,
   showLoading,
@@ -27,10 +28,6 @@ import { TableSearch } from "./components/TableSearch";
 
 function App() {
   const [state, dispatch] = useReducer(rootReducer, initialState);
-
-  const pagesElementCount = 1;
-  const startIndex = pagesElementCount * state.currentPage;
-  const chunkData = state.items.slice(startIndex, startIndex + pagesElementCount);
 
   const getItems = async url => {
     try {
@@ -70,8 +67,7 @@ function App() {
     dispatch(showLoading());
 
     const url = new URL(LIST_ITEMS);
-    url.searchParams.append("_limit", count);
-
+    url.searchParams.set("rows", count);
     getItems(url);
   };
 
@@ -80,10 +76,22 @@ function App() {
   };
 
   const onSearchHandler = value => {
-    const filteredItems = state.items.filter(item => item.name.includes(value));
-    console.log(value, filteredItems);
-    dispatch(fetchData(filteredItems));
+    dispatch(setSearchWord(value));
     dispatch(setCurrentPage(0));
+  };
+
+  const getFilteredItems = () => {
+    const { items, search } = state;
+
+    if (!search) {
+      return items;
+    }
+    return items.filter(
+      item =>
+        item.firstName.toLowerCase().includes(state.search) ||
+        item.lastName.toLowerCase().includes(state.search) ||
+        item.email.toLowerCase().includes(state.search)
+    );
   };
 
   if (state.error) {
@@ -106,20 +114,26 @@ function App() {
     );
   }
 
+  const pagesElementCount = 15;
+  const startIndex = pagesElementCount * state.currentPage;
+
+  const filteredData = getFilteredItems();
+  const chunkData = filteredData.slice(startIndex, startIndex + pagesElementCount);
+
   return (
     <div className="container py-4">
       <TableSearch onSearch={onSearchHandler} />
-      <Table items={chunkData} onSort={onSortHandler} onGetItem={onGetItemHandler} />
-      {Object.keys(state.rowInfo).length > 0 && <RowInfo info={state.rowInfo} />}
 
-      {state.items.length > pagesElementCount ? (
+      <Table items={chunkData} onSort={onSortHandler} onGetItem={onGetItemHandler} />
+
+      {filteredData.length > pagesElementCount ? (
         <ReactPaginate
           previousLabel={"<"}
           nextLabel={">"}
           breakLabel={"..."}
           breakClassName={"page-item"}
           breakLinkClassName="page-link"
-          pageCount={Math.ceil(state.items.length / pagesElementCount)}
+          pageCount={Math.ceil(filteredData.length / pagesElementCount)}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={changePageHandler}
@@ -134,6 +148,8 @@ function App() {
           forcePage={state.currentPage}
         />
       ) : null}
+
+      {Object.keys(state.rowInfo).length > 0 && <RowInfo info={state.rowInfo} />}
     </div>
   );
 }
