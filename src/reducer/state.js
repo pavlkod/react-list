@@ -4,7 +4,10 @@ export const initialState = {
     field: "id",
     order: "desc",
   },
-  error: null,
-  loading: true,
   rowInfo: {},
+  error: null,
+  loading: false,
+  modeSelected: false,
+  currentPage: 0,
+  search: "",
 };
