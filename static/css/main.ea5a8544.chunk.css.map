@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/HeadLine/style.css"],"names":[],"mappings":"AAAA,WACE,YAAa,CACb,wBACF","file":"main.ea5a8544.chunk.css","sourcesContent":[".asc:after {\r\n  border-top: 0;\r\n  border-bottom: 0.3em solid;\r\n}\r\n"]}
